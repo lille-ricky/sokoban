@@ -103,4 +103,11 @@ public class Carte {
     private boolean estDansGrille(int x, int y){
         return x >= 0 && x < nbColonnes && y >= 0 && y < nbLignes;
     }
+
+    public boolean finDePartie(){
+        for (int[] coord : destinations){
+            if (!grille[coord[1]][coord[0]].aCaisse()) return false;
+        }
+        return !destinations.isEmpty();
+    }
 }

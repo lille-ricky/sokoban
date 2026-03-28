@@ -24,7 +24,7 @@ public class Lecture {
         tailleLigne = nbLignes > 0 ? lignes.get(0).length() : 0;
     }
 
-    public List<String> getLigne() {
+    public List<String> getLignes() {
         return lignes;
     }
 

@@ -18,7 +18,7 @@ public abstract class Case {
         return aCaisse;
     }
 
-    public void setjoueur(boolean b) {
+    public void setJoueur(boolean b) {
         this.aJoueur = b;
     }
 

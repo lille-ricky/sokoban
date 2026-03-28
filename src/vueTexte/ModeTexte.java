@@ -39,6 +39,35 @@ public class ModeTexte {
 
         }
     }
+
+    public void jouer() {
+        System.out.println("=== SOKOBAN - Niveau " + niveau + " ===");
+        System.out.println("w=haut a=gauche s=bas d=droite r=recommencer x=quitter\n");
+
+        boolean continuer = true;
+        while (continuer && !modele.finDePartie()) {
+            System.out.println(modele);
+            System.out.println("Mouvements : " + modele.getNbMouvements());
+            System.out.println("Action : ");
+
+            char action = lireAction();
+            switch (action) {
+                case 'x':
+                    continuer = false;
+                    System.out.println("Quitting...");
+                    break;
+                case 'r':
+                    modele = new Carte("maps/map" + niveau + ".txt");
+                    System.out.println("Carte recommencee.");
+                    break;
+                default:
+                    modele.deplacer(touches.get(action));
+            }
+        }
+        if (modele.finDePartie()) {
+            System.out.println(modele);
+            System.out.println("Felicitations ! Niveau " + niveau + "termine en "
+                    + modele.getNbMouvements() + " mouvements!");
+        }
+    }
 }
-
-

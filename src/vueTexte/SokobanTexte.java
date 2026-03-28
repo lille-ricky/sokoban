@@ -14,6 +14,7 @@ public class SokobanTexte {
 
         String fichier = "bin/map/map" + niveau + ".txt";
         ModeTexte jeu = new ModeTexte(fichier, niveau);
+        jeu.jouer();
 
     }
 

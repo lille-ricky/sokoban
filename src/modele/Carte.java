@@ -103,7 +103,7 @@ public class Carte {
             caseCaisse.setCaisse(true);
         }
 
-        grille[ry][rx].setJoueur(true);
+        grille[ry][rx].setJoueur(false);
         caseVoulue.setJoueur(true);
         robot.setPosition(nx, ny);
         nbMouvements++;

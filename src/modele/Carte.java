@@ -21,4 +21,6 @@ public class Carte {
     public Carte(List<String> lignes){
         construire(lignes);
     }
+
+    
 }

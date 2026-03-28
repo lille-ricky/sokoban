@@ -146,4 +146,24 @@ public class Carte {
     public int getNbMouvements() {
         return nbMouvements;
     }
+
+    public String toString(){
+        StringBuilder ch = new StringBuilder();
+        for (int y = 0; y < nbLignes; y++){
+            for (int x = 0; x < nbColonnes; x++) {
+                Case c = grille[y][x];
+                char car;
+                if (c.aJoueur()){
+                    car = c.estDestination() ? '+' : '@';
+                } else if (c.aCaisse()){
+                    car = c.estDestination() ? '*' : '$';
+                } else {
+                    car = c.getCaractereBase();
+                }
+                ch.append(car);
+            }
+            ch.append('\n');
+        }
+        return ch.toString();
+    }
 }

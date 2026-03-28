@@ -3,9 +3,8 @@ package modele;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class Carte {
+
     private Case[][] grille;
     private int nbColonnes;
     private int nbLignes;
@@ -13,34 +12,36 @@ public class Carte {
     private List<int[]> destinations;
     private int nbMouvements;
 
-    public Carte(String nomFichier){
+    public Carte(String nomFichier) {
         Lecture lec = new Lecture(nomFichier);
         construire(lec.getLignes());
     }
 
-    public Carte(List<String> lignes){
+    public Carte(List<String> lignes) {
         construire(lignes);
     }
 
-    private void construire(List<String> lignes){
+    private void construire(List<String> lignes) {
         nbLignes = lignes.size();
         nbColonnes = lignes.stream().mapToInt(String::length).max().orElse(0);
         grille = new Case[nbLignes][nbColonnes];
         destinations = new ArrayList<>();
         nbMouvements = 0;
 
-        for (int y = 0; y < nbLignes; y++){
+        for (int y = 0; y < nbLignes; y++) {
             String ligne = lignes.get(y);
-            for (int x = 0; x < nbColonnes; x++){
+            for (int x = 0; x < nbColonnes; x++) {
                 char c = x < ligne.length() ? ligne.charAt(x) : '/';
-                switch(c) {
+                switch (c) {
                     case '#':
-                        grille[y][x] = new Mur(); break;
+                        grille[y][x] = new Mur();
+                        break;
                     case '/':
-                        grille[y][x] = new Vide(); break;
+                        grille[y][x] = new Vide();
+                        break;
                     case '.':
-                        grille[y][x] = new Destination(); 
-                        destinations.add(new int[]{x, y}); 
+                        grille[y][x] = new Destination();
+                        destinations.add(new int[]{x, y});
                         break;
                     case '@':
                         grille[y][x] = new Sol();
@@ -62,15 +63,16 @@ public class Carte {
                         destinations.add(new int[]{x, y});
                         grille[y][x].setCaisse(true);
                         break;
-                    default :
-                        grille[y][x] = new Sol(); break;
+                    default:
+                        grille[y][x] = new Sol();
+                        break;
 
                 }
             }
         }
     }
 
-    public boolean deplacer(Direction dir){
+    public boolean deplacer(Direction dir) {
         robot.setDirection(dir);
 
         int rx = robot.getX();
@@ -78,17 +80,25 @@ public class Carte {
         int nx = rx + dir.getDx();
         int ny = ry + dir.getDy();
 
-        if (!estDansGrille(nx, ny)) return false;
+        if (!estDansGrille(nx, ny)) {
+            return false;
+        }
         Case caseVoulue = grille[ny][nx];
 
-        if (!caseVoulue.estAccesible()) return false;
+        if (!caseVoulue.estAccesible()) {
+            return false;
+        }
 
-        if (caseVoulue.aCaisse()){
+        if (caseVoulue.aCaisse()) {
             int cx = nx + dir.getDx();
             int cy = ny + dir.getDy();
-            if (!estDansGrille(cx, cy)) return false;
+            if (!estDansGrille(cx, cy)) {
+                return false;
+            }
             Case caseCaisse = grille[cy][cx];
-            if (!caseCaisse.estAccesible() || caseCaisse.aCaisse()) return false;
+            if (!caseCaisse.estAccesible() || caseCaisse.aCaisse()) {
+                return false;
+            }
             caseVoulue.setCaisse(false);
             caseCaisse.setCaisse(true);
         }
@@ -99,15 +109,41 @@ public class Carte {
         nbMouvements++;
         return true;
     }
-    
-    private boolean estDansGrille(int x, int y){
+
+    private boolean estDansGrille(int x, int y) {
         return x >= 0 && x < nbColonnes && y >= 0 && y < nbLignes;
     }
 
-    public boolean finDePartie(){
-        for (int[] coord : destinations){
-            if (!grille[coord[1]][coord[0]].aCaisse()) return false;
+    public boolean finDePartie() {
+        for (int[] coord : destinations) {
+            if (!grille[coord[1]][coord[0]].aCaisse()) {
+                return false;
+            }
         }
         return !destinations.isEmpty();
+    }
+
+    public Case[][] getGrille() {
+        return grille;
+    }
+
+    public int getNbColonnes() {
+        return nbColonnes;
+    }
+
+    public int getNbLignes() {
+        return nbLignes;
+    }
+
+    public Robot getRobot() {
+        return robot;
+    }
+
+    public Case getCase(int x, int y) {
+        return grille[y][x];
+    }
+
+    public int getNbMouvements() {
+        return nbMouvements;
     }
 }
